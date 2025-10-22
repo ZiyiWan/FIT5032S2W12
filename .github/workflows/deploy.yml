@@ -2,13 +2,14 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,11 +25,13 @@ jobs:
       - name: Build
         run: npm run build
 
+      # 👇 新增这一步解决 Vue Router 历史模式刷新 404
+      - name: SPA Fallback
+        run: cp dist/index.html dist/404.html
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages
           folder: dist
-
-permissions:
-  contents: write
+          clean: true # ✅ 自动清空旧文件，避免混乱

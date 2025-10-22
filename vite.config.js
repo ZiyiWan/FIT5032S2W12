@@ -1,12 +1,11 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-// https://vite.dev/config/
+// https://vitejs.dev/config/
 export default defineConfig({
-  base: '/FIT5032S2W12/',
+  base: process.env.NODE_ENV === 'production' ? '/FIT5032S2W12/' : '/',
   plugins: [vue(), vueDevTools()],
   resolve: {
     alias: {
